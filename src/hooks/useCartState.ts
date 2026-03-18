@@ -16,7 +16,7 @@ function useCartParam() {
     setTimeout(() => {
       window.history.replaceState({}, '', url.toString())
       setCartParam(getParam())
-    }, 50)
+    }, 400)
   }, [])
 
   return [cartParam, setParam] as const
@@ -48,11 +48,11 @@ export function useCartState(): CartState {
 
   // Effect 2: Clear cart when payment is complete
   useEffect(() => {
-    if (isPaymentComplete) {
+    if (isPaymentComplete && cartId) {
       setCartId(null)
-      setCartParam(null)  // async - cartParam stays set for ~50ms
+      setCartParam(null)  // async - cartParam stays set for ~400ms
     }
-  }, [isPaymentComplete, setCartParam])
+  }, [isPaymentComplete, cartId, setCartParam])
 
   const simulateCheckout = useCallback((id: string) => {
     setCartParam(id)
